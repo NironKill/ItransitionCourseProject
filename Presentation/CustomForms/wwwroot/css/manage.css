@@ -1,0 +1,32 @@
+﻿header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    height: 140px;
+}
+
+.btn-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+}
+
+    .btn-container .btn {
+        display: inline-flex;
+    }
+
+.dropdown-menu {
+    z-index: 1050; 
+    position: absolute; 
+}
+
+.locked {
+    text-decoration: line-through;
+    color: red;
+}

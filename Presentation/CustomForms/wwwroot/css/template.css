@@ -1,0 +1,22 @@
+﻿header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    height: 120px; 
+}
+
+.nav-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+}
+
+    .nav-container .nav {
+        display: inline-flex;
+    }

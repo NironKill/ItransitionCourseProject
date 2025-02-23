@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model CustomForms.Models.Account.RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<body>
+    <div class="account-container">
+        <div class="account-box">
+            <h2 class="text-center mb-4">@Localizer["HeadRegister"]</h2>
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3">
+                    <label asp-for="FirstName" class="form-label">@Localizer["FirstName"]</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LastName" class="form-label">@Localizer["LastName"]</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">@Localizer["Email"]</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">@Localizer["Password"]</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label">@Localizer["ConfirmPassword"]</label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <input type="submit" value="@Localizer["Signup"]" class="btn btn-success w-100 p-2" />
+                <p class="text-center mt-2">
+                    @Localizer["TextRegister"] <a asp-controller="Account" asp-action="Login" class="text-decoration-none">@Localizer["Signin"]</a>
+                </p>
+                <div class="text-center">
+                    <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">@Localizer["HomeBack"]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}
