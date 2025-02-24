@@ -11,11 +11,8 @@ namespace CustomForms.Application.Repositories.Implementations
     {
         private readonly IApplicationDbContext _context;
 
-        public OptionRepository(IApplicationDbContext context)
-        {
-            _context = context;
-        }
-
+        public OptionRepository(IApplicationDbContext context) => _context = context;
+        
         public async Task Create(List<OptionDTO> dtos, Guid questionId, CancellationToken cancellationToken)
         {
             List<Option> options = new List<Option>();

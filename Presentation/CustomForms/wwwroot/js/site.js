@@ -69,3 +69,9 @@ document.addEventListener("input", function (event) {
         event.target.style.height = event.target.scrollHeight + "px"; 
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (!window.location.hash) {
+        window.location.hash = "#generalTemplates";
+    }
+});

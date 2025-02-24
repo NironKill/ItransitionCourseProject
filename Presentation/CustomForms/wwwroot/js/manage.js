@@ -24,8 +24,9 @@
         rows.forEach(row => {
             const name = row.querySelector(".user-name").textContent.toLowerCase();
             const email = row.querySelector(".user-email").textContent.toLowerCase();
+            const role = row.querySelector(".user-role").textContent.toLowerCase();
 
-            if (name.includes(searchTerm) || email.includes(searchTerm)) {
+            if (name.includes(searchTerm) || email.includes(searchTerm) || role.includes(searchTerm)) {
                 row.style.display = "";
             } else {
                 row.style.display = "none";

@@ -33,6 +33,16 @@ namespace CustomForms.Controllers
             ICollection<TemplateDTO> templatedtos = await _template.GetAll();
             ICollection<UserDTO> userDTOs = await _user.GetAll();
 
+            Guid userId = Guid.Empty;
+            string role = "User";
+            if (User.Identity.IsAuthenticated)
+            {
+                string userEmail = User.Identity.Name;
+                UserDTO user = await _user.GetByEmail(userEmail);
+                userId = user.Id;
+                role = user.Role;
+            }
+
             List<TemplateListModel> models = new List<TemplateListModel>();
             foreach (TemplateDTO dto in templatedtos)
             {
@@ -41,6 +51,7 @@ namespace CustomForms.Controllers
                 TemplateListModel model = new TemplateListModel()
                 {
                     Id = dto.Id,
+                    UserId = dto.UserId,
                     IsPublic = dto.IsPublic,
                     Tags = dto.Tags,
                     Title = dto.Title,
@@ -49,6 +60,9 @@ namespace CustomForms.Controllers
                 };
                 models.Add(model);
             }
+
+            ViewBag.Role = role;
+            ViewBag.CurrentUserId = userId;
             return View(models);
         }
 

@@ -141,6 +141,12 @@
   <data name="NewTemplate" xml:space="preserve">
     <value>Create your own template</value>
   </data>
+  <data name="Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
   <data name="SearchTemplate" xml:space="preserve">
     <value>Search templates...</value>
   </data>

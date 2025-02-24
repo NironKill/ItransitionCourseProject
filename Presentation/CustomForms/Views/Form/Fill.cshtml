@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Newtonsoft.Json
+
+@inject IViewLocalizer Localizer
+
+@model CustomForms.Models.Form.FillModel
+
+@{
+    ViewData["Title"] = "Fill Page";
+}
+
+<script>
+    var model = function () {
+        return @Html.Raw(JsonConvert.SerializeObject(Model));
+    }();
+    const currentUserId = "@ViewBag.CurrentUserId";
+</script>
+
+<body>
+    <main class="container py-4 position-relative">
+        <div class="row justify-content-center">
+            <form asp-action="Fill" asp-controller="Form" method="post" id="fill-template-form" class="col-lg-8">
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <span class="form-control-plaintext fs-4" id="template-title">@Model.Title</span>
+                        <span class="form-control-plaintext text-muted" id="template-description">@Model.Description</span>
+                    </div>
+                </div>
+
+                <div id="questions-container" class="list-group"></div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" id="btn-send-form">
+                        @Localizer["SendForm"]
+                    </button>
+
+                    <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">@Localizer["HomeBack"]</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+
+<script type="text/javascript">
+    const localizedStrings = {
+        placeholder: "@Localizer["Placeholder"]",
+    };
+</script>
+
+@section Scripts {
+    <script src="~/js/fill.js" asp-append-version="true"></script>
+}

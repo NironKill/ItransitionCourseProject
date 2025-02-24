@@ -150,7 +150,7 @@ namespace CustomForms.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("Preview")]
+        [HttpGet("Preview/{id}")]
         [Authorize]
         public IActionResult Preview()
         {

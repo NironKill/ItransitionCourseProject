@@ -56,3 +56,12 @@
     background-color: var(--dark);
     box-shadow: none;
 }
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+    .clickable-row:hover {
+        background-color: #f8f9fa;
+    }
