@@ -138,6 +138,9 @@
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete the template</value>
+  </data>
   <data name="EditForm" xml:space="preserve">
     <value>Edit Form</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="Integer" xml:space="preserve">
     <value>Number</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Copy link for respondents</value>
   </data>
   <data name="MultiLine" xml:space="preserve">
     <value>Paragraph</value>

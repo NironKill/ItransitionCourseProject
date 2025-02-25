@@ -138,6 +138,9 @@
   <data name="Confirm" xml:space="preserve">
     <value>Пацвердзіць</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Выдаліць шаблон</value>
+  </data>
   <data name="EditForm" xml:space="preserve">
     <value>Рэдагаваць форму</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="Integer" xml:space="preserve">
     <value>Лік</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Капіраваць спасылку для рэспандэнтаў</value>
   </data>
   <data name="MultiLine" xml:space="preserve">
     <value>Абзац</value>

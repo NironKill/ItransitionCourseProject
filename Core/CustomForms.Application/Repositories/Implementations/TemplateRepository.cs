@@ -91,6 +91,13 @@ namespace CustomForms.Application.Repositories.Implementations
             if (questionUpdate.Any())
                 await _question.Update(questionUpdate, cancellationToken);
         }
+        public async Task Delete(Guid id, CancellationToken cancellationToken)
+        {
+            Template template = await _context.Templates.FirstOrDefaultAsync(x => x.Id == id);
+
+            _context.Templates.Remove(template);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
         public async Task<TemplateDTO> GetById(Guid templateId)
         {
             TemplateDTO dto = await _context.Templates.Where(t => t.Id == templateId).Select(t => new TemplateDTO

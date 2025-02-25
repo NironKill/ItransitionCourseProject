@@ -150,6 +150,29 @@ namespace CustomForms.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpDelete("Delete/{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            Claim userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            bool isInvalid = await _accessToken.ValidateToken(userIdClaim.Subject.Name);
+            if (!isInvalid)
+                return RedirectToAction("Login", "Account");
+
+            UserDTO userDTO = await _user.GetByEmail(userIdClaim.Subject.Name);
+            if (userDTO.LockoutEnabled)
+                return RedirectToAction("Login", "Account");
+
+            TemplateDTO template = await _template.GetById(id);
+            if (userDTO.Id == template.UserId || userDTO.Role == Role.Admin.ToString())
+            {
+                await _template.Delete(id, cancellationToken);
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpGet("Preview/{id}")]
         [Authorize]
         public IActionResult Preview()

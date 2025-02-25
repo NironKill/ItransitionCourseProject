@@ -138,4 +138,27 @@
         const sampleAnswerHtml = getSampleAnswerHtml(questionIndex, questionType, placeholder);
         sampleAnswerContainer.html(sampleAnswerHtml);
     });
+
+    $(document).on("click", "#delete-toggle", async function () {
+        const response = await fetch(`/Template/Delete/${model.Id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (response.ok) {
+            window.location.href = "/";
+        } else {
+            console.error("Failed to delete template.");
+            alert("An error occurred. Please try again.");
+        }
+    });
+
+    $("#link-toggle").click(function () {
+        const link = `${window.location.origin}/Form/Fill/${model.Id}`;
+
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                alert("This link has been copied to the clipboard!");
+            })
+    });
 });
