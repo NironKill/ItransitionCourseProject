@@ -6,6 +6,7 @@ using CustomForms.Application.Services.Interfaces;
 using CustomForms.Domain;
 using CustomForms.Models;
 using CustomForms.Models.Home;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -19,19 +20,22 @@ namespace CustomForms.Controllers
 
         private readonly IUserRepository _user;
         private readonly ITemplateRepository _template;
+        private readonly ILikeRepository _like;
 
-        public HomeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template)
+        public HomeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template, ILikeRepository like)
         {
             _accessToken=accessToken;
 
             _user = user;
             _template = template;
+            _like = like;
         }
 
         public async Task<IActionResult> Index()
         {
-            ICollection<TemplateDTO> templatedtos = await _template.GetAll();
-            ICollection<UserDTO> userDTOs = await _user.GetAll();
+            ICollection<TemplateDTO> templateDtos = await _template.GetAll();
+            ICollection<UserDTO> userDtos = await _user.GetAll();
+            ICollection<LikeDTO> likeDtos= await _like.GetAll();
 
             Guid userId = Guid.Empty;
             string role = "User";
@@ -44,9 +48,15 @@ namespace CustomForms.Controllers
             }
 
             List<TemplateListModel> models = new List<TemplateListModel>();
-            foreach (TemplateDTO dto in templatedtos)
+            bool isLiked = false;
+            foreach (TemplateDTO dto in templateDtos)
             {
-                string userName = userDTOs.Where(x => x.Id == dto.UserId).Select(x => x.Name).FirstOrDefault();
+                int numberLikes = likeDtos.Where(x => x.TemplateId == dto.Id).Count();
+
+                if (likeDtos.Where(x => x.UserId == userId && x.TemplateId == dto.Id).Any())
+                    isLiked = true;
+
+                string userName = userDtos.Where(x => x.Id == dto.UserId).Select(x => x.Name).FirstOrDefault();
                 Topics topic = (Topics)dto.TopicId;
                 TemplateListModel model = new TemplateListModel()
                 {
@@ -56,7 +66,9 @@ namespace CustomForms.Controllers
                     Tags = dto.Tags,
                     Title = dto.Title,
                     Topic = topic.ToString(),
-                    Author = userName
+                    Author = userName,
+                    IsLiked = isLiked,
+                    NumberLikes = numberLikes
                 };
                 models.Add(model);
             }

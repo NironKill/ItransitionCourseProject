@@ -61,7 +61,10 @@
                 <td class="template-topic">${template.topic}</td>
                 <td class="template-title">${template.title}</td>
                 ${authorColumn}
-                ${accessColumn}           
+                ${accessColumn}    
+                <td class="template-likes" data-likes="${template.numberLikes}" data-liked="${template.isLiked}">
+                    <span class="like-count">${template.numberLikes}</span> 
+                </td>
             </tr>`;
             tableBody.innerHTML += row;
         });
@@ -75,6 +78,32 @@
                 const section = this.getAttribute("data-section");
 
                 handleRowClick(section, templateId);
+            });
+        });
+
+        document.querySelectorAll(".template-likes").forEach(likeCell => {
+            likeCell.addEventListener("click", function (event) {
+                event.stopPropagation();
+
+                let tr = this.closest("tr");
+                let templateId = tr.getAttribute("data-id");
+                let currentLikes = parseInt(this.getAttribute("data-likes"));
+                let isLiked = this.getAttribute("data-liked") === "true";
+                let likeCountSpan = tr.querySelector(".like-count");
+
+                let url = isLiked ? `/Like/Remove/${templateId}` : `/Like/Add/${templateId}`;
+                let method = isLiked ? "DELETE" : "POST";
+
+                fetch(url, {
+                    method: method,
+                    headers: { "Content-Type": "application/json" }
+                })
+                    .then(data => {              
+                        let newLikes = isLiked ? Math.max(0, currentLikes - 1) : currentLikes + 1;
+                        this.setAttribute("data-likes", newLikes);
+                        this.setAttribute("data-liked", isLiked ? "false" : "true");
+                        likeCountSpan.textContent = newLikes;         
+                    })
             });
         });
     }
