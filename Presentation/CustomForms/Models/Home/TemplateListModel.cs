@@ -16,5 +16,6 @@ namespace CustomForms.Models.Home
         public bool IsLiked { get; set; }
 
         public ICollection<CommentDTO> Comments { get; set; }
+        public FormDTO Form { get; set; }
     }
 }

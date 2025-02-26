@@ -1,7 +1,6 @@
 ﻿using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
-using CustomForms.Domain;
 using CustomForms.Models.Form;
 using CustomForms.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -79,9 +78,31 @@ namespace CustomForms.Controllers
         }
 
         [HttpGet("View/{id}")]
-        public IActionResult Views()
+        public async Task<IActionResult> Views(Guid id)
         {
-            return View();
+            Claim userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            bool isInvalid = await _accessToken.ValidateToken(userIdClaim.Subject.Name);
+            if (!isInvalid)
+                return RedirectToAction("Login", "Account");
+
+            UserDTO user = await _user.GetByEmail(userIdClaim.Subject.Name);
+            if (user.LockoutEnabled)
+                return RedirectToAction("Login", "Account");
+
+            FormDTO formDto = await _form.GetById(id);
+            TemplateDTO templateDto = await _template.GetById(formDto.TemplateId);
+
+            FormModel model = new FormModel()
+            {
+                Title = templateDto.Title,
+                Description = templateDto.Description,
+                FilledAt = formDto.FilledAt,
+
+                Questions = templateDto.Questions,
+                Answers = formDto.Answers,
+            };
+
+            return View(model);
         }
     }
 }

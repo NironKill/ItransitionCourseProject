@@ -128,16 +128,6 @@ namespace CustomForms.Application.Repositories.Implementations
 
             return dto;
         }
-
-        private async Task CreateNewTag(List<string> tagNamesDTO, CancellationToken cancellationToken)
-        {
-            ICollection<TagDTO> tags = await _tag.GetAll();
-            List<string> tagNamesDB = tags.Select(x => x.Name).ToList();
-            IEnumerable<string> newTags = tagNamesDTO.Except(tagNamesDB);
-            if (newTags.Any())
-                await _tag.Create(newTags, cancellationToken);
-        }
-
         public async Task<ICollection<TemplateDTO>> GetAll()
         {
             List<Template> templates = await _context.Templates.ToListAsync();
@@ -159,6 +149,15 @@ namespace CustomForms.Application.Repositories.Implementations
                 dtos.Add(dto);
             }
             return dtos;
+        }
+
+        private async Task CreateNewTag(List<string> tagNamesDTO, CancellationToken cancellationToken)
+        {
+            ICollection<TagDTO> tags = await _tag.GetAll();
+            List<string> tagNamesDB = tags.Select(x => x.Name).ToList();
+            IEnumerable<string> newTags = tagNamesDTO.Except(tagNamesDB);
+            if (newTags.Any())
+                await _tag.Create(newTags, cancellationToken);
         }
     }
 }

@@ -2,7 +2,6 @@
 using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
-using CustomForms.Domain;
 using CustomForms.Models.Template;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -175,9 +174,29 @@ namespace CustomForms.Controllers
 
         [HttpGet("Preview/{id}")]
         [Authorize]
-        public IActionResult Preview()
+        public async Task<IActionResult> Preview(Guid id)
         {
-            return View();
+            Claim userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            bool isInvalid = await _accessToken.ValidateToken(userIdClaim.Subject.Name);
+            if (!isInvalid)
+                return RedirectToAction("Login", "Account");
+
+            UserDTO userDTO = await _user.GetByEmail(userIdClaim.Subject.Name);
+            if (userDTO.LockoutEnabled)
+                return RedirectToAction("Login", "Account");
+
+            TemplateDTO templateDto = await _template.GetById(id);
+
+            PreviewModel model = new PreviewModel()
+            {
+                TemplateId = templateDto.Id,
+                Title = templateDto.Title,
+                Description = templateDto.Description,
+
+                Questions = templateDto.Questions
+            };
+
+            return View(model);
         }
     }
 }

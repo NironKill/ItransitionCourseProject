@@ -117,16 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackEdit" xml:space="preserve">
-    <value>Вярнуцца да рэдагавання</value>
-  </data>
-  <data name="PlaceholderInteger" xml:space="preserve">
-    <value>Увядзіце лік</value>
-  </data>
-  <data name="PlaceholderMultiline" xml:space="preserve">
-    <value>Доўгі тэкст адказу</value>
-  </data>
-  <data name="PlaceholderSingleline" xml:space="preserve">
-    <value>Кароткі тэкст адказу</value>
+  <data name="Back" xml:space="preserve">
+    <value>Вярнуцца на галоўную старонку</value>
   </data>
 </root>

@@ -161,4 +161,8 @@
                 alert("This link has been copied to the clipboard!");
             })
     });
+
+    document.getElementById('preview-toggle').addEventListener('click', function () {
+        window.location.href = `/Template/Preview/${model.Id}`;
+    });
 });

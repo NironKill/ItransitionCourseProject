@@ -18,8 +18,9 @@ namespace CustomForms.Controllers
         private readonly ITemplateRepository _template;
         private readonly ILikeRepository _like;
         private readonly ICommentRepository _comment;
+        private readonly IFormRepository _form;
 
-        public HomeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template, ILikeRepository like, ICommentRepository comment)
+        public HomeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template, ILikeRepository like, ICommentRepository comment, IFormRepository form)
         {
             _accessToken=accessToken;
 
@@ -27,6 +28,7 @@ namespace CustomForms.Controllers
             _template = template;
             _like = like;
             _comment = comment;
+            _form = form;
         }
 
         public async Task<IActionResult> Index()
@@ -34,7 +36,8 @@ namespace CustomForms.Controllers
             ICollection<TemplateDTO> templateDtos = await _template.GetAll();
             ICollection<UserDTO> userDtos = await _user.GetAll();
             ICollection<LikeDTO> likeDtos= await _like.GetAll();
-            ICollection<CommentDTO> commentdtos = await _comment.GetAll();
+            ICollection<CommentDTO> commentDtos = await _comment.GetAll();
+            ICollection<FormDTO> formDtos = new List<FormDTO>();
 
             Guid userId = Guid.Empty;
             string role = "User";
@@ -44,13 +47,15 @@ namespace CustomForms.Controllers
                 UserDTO user = await _user.GetByEmail(userEmail);
                 userId = user.Id;
                 role = user.Role;
+                formDtos = await _form.GetAllByUserId(userId);
             }
 
             List<TemplateListModel> templateListModels = new List<TemplateListModel>();
             bool isLiked = false;
             foreach (TemplateDTO dto in templateDtos)
             {
-                ICollection<CommentDTO> comments = commentdtos.Where(x => x.TemplateId == dto.Id).ToList();
+                ICollection<CommentDTO> comments = commentDtos.Where(x => x.TemplateId == dto.Id).OrderByDescending(x => x.CommentedAt).ToList();
+                FormDTO form = formDtos.Where(x => x.TemplateId == dto.Id).OrderByDescending(x => x.FilledAt).FirstOrDefault();
 
                 int numberLikes = likeDtos.Where(x => x.TemplateId == dto.Id).Count();
 
@@ -72,7 +77,8 @@ namespace CustomForms.Controllers
                     IsLiked = isLiked,
                     NumberLikes = numberLikes,
 
-                    Comments = comments
+                    Comments = comments,
+                    Form = form
                 };
                 templateListModels.Add(model);
             }

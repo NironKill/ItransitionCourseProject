@@ -19,7 +19,7 @@
                 filteredTemplates = templates.filter(t => t.userId === currentUserId);
                 break;
             case "myforms":
-                filteredTemplates = [];
+                filteredTemplates = templates.filter(t => t.form !== null);
                 break;
             case "adminmanage":
                 filteredTemplates = templates.filter(t => t.userId !== currentUserId);
@@ -56,7 +56,7 @@
             }
 
             let row =
-            `<tr data-id="${template.id}" data-section="${section}" class="clickable-row template-row">
+            `<tr data-id="${template.id}" data-section="${section}" form-id="${template.form ? template.form.id : ""}" class="clickable-row template-row">
                 <td class="template-submenu">
                     <span class="submenu-toggle">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
@@ -112,9 +112,10 @@
         document.querySelectorAll(".clickable-row").forEach(row => {
             row.addEventListener("click", function () {
                 const templateId = this.getAttribute("data-id");
+                const formId = this.getAttribute("form-id");
                 const section = this.getAttribute("data-section");
 
-                handleRowClick(section, templateId);
+                handleRowClick(section, templateId, formId);
             });
         });
 
@@ -170,7 +171,7 @@
         });
     }
 
-    function handleRowClick(section, templateId) {
+    function handleRowClick(section, templateId, formId) {
         switch (section) {
             case "generalTemplates":
                 window.location.href = `/Form/Fill/${templateId}`;
@@ -179,7 +180,7 @@
                 window.location.href = `/Template/Edit/${templateId}`;
                 break;
             case "myforms":
-                window.location.href = `/Form/View/${templateId}`;
+                window.location.href = `/Form/View/${formId}`;
                 break;
             case "adminmanage":
                 window.location.href = `/Template/Edit/${templateId}`;

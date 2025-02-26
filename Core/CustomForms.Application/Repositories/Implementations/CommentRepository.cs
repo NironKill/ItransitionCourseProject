@@ -49,7 +49,7 @@ namespace CustomForms.Application.Repositories.Implementations
                 };
                 dtos.Add(dto);
             }
-            return dtos.OrderByDescending(x => x.CommentedAt).ToList();
+            return dtos.ToList();
         }
     }
 }
