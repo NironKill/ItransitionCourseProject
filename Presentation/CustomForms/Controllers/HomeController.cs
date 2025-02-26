@@ -1,16 +1,12 @@
-using CustomForms.Application.Common.Constants;
 using CustomForms.Application.Common.Enums;
 using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
-using CustomForms.Domain;
 using CustomForms.Models;
 using CustomForms.Models.Home;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Security.Claims;
 
 namespace CustomForms.Controllers
 {
@@ -21,14 +17,16 @@ namespace CustomForms.Controllers
         private readonly IUserRepository _user;
         private readonly ITemplateRepository _template;
         private readonly ILikeRepository _like;
+        private readonly ICommentRepository _comment;
 
-        public HomeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template, ILikeRepository like)
+        public HomeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template, ILikeRepository like, ICommentRepository comment)
         {
             _accessToken=accessToken;
 
             _user = user;
             _template = template;
             _like = like;
+            _comment = comment;
         }
 
         public async Task<IActionResult> Index()
@@ -36,6 +34,7 @@ namespace CustomForms.Controllers
             ICollection<TemplateDTO> templateDtos = await _template.GetAll();
             ICollection<UserDTO> userDtos = await _user.GetAll();
             ICollection<LikeDTO> likeDtos= await _like.GetAll();
+            ICollection<CommentDTO> commentdtos = await _comment.GetAll();
 
             Guid userId = Guid.Empty;
             string role = "User";
@@ -47,10 +46,12 @@ namespace CustomForms.Controllers
                 role = user.Role;
             }
 
-            List<TemplateListModel> models = new List<TemplateListModel>();
+            List<TemplateListModel> templateListModels = new List<TemplateListModel>();
             bool isLiked = false;
             foreach (TemplateDTO dto in templateDtos)
             {
+                ICollection<CommentDTO> comments = commentdtos.Where(x => x.TemplateId == dto.Id).ToList();
+
                 int numberLikes = likeDtos.Where(x => x.TemplateId == dto.Id).Count();
 
                 if (likeDtos.Where(x => x.UserId == userId && x.TemplateId == dto.Id).Any())
@@ -63,19 +64,22 @@ namespace CustomForms.Controllers
                     Id = dto.Id,
                     UserId = dto.UserId,
                     IsPublic = dto.IsPublic,
+                    Description = dto.Description,
                     Tags = dto.Tags,
                     Title = dto.Title,
                     Topic = topic.ToString(),
                     Author = userName,
                     IsLiked = isLiked,
-                    NumberLikes = numberLikes
+                    NumberLikes = numberLikes,
+
+                    Comments = comments
                 };
-                models.Add(model);
+                templateListModels.Add(model);
             }
 
             ViewBag.Role = role;
             ViewBag.CurrentUserId = userId;
-            return View(models);
+            return View(templateListModels);
         }
 
         [HttpPost]

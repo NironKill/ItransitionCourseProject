@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddComment" xml:space="preserve">
+    <value>Дадаць каментар...</value>
+  </data>
   <data name="AdminManage" xml:space="preserve">
     <value>Кіраванне шаблонамі ў якасці адміністратара</value>
   </data>
   <data name="AdminMenu" xml:space="preserve">
     <value>Меню Адміністратара</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Каментарыі</value>
   </data>
   <data name="GeneralTemplates" xml:space="preserve">
     <value>Агульныя Шаблоны</value>
@@ -162,7 +168,13 @@
   <data name="TabTopic" xml:space="preserve">
     <value>Тэма</value>
   </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Тэгі</value>
+  </data>
   <data name="UserAcc" xml:space="preserve">
     <value>Уліковы запіс</value>
+  </data>
+  <data name="YourСomment" xml:space="preserve">
+    <value>Ваш каментар</value>
   </data>
 </root>

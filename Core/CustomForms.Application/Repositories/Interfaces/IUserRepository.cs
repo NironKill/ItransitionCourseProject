@@ -13,6 +13,7 @@ namespace CustomForms.Application.Repositories.Interfaces
 
         Task<ICollection<UserDTO>> GetAll(Guid id);
         Task<ICollection<UserDTO>> GetAll();
+        Task<UserDTO> GetById(Guid userId);
         Task<UserDTO> GetByEmail(string email);
     }
 }

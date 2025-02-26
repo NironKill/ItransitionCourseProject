@@ -57,6 +57,14 @@
 
             let row =
             `<tr data-id="${template.id}" data-section="${section}" class="clickable-row template-row">
+                <td class="template-submenu">
+                    <span class="submenu-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"/>
+                        </svg>
+                        <i class="bi bi-caret-right"></i>
+                    </span> 
+                </td>
                 <td class="template-index">${index + 1}</td>
                 <td class="template-topic">${template.topic}</td>
                 <td class="template-title">${template.title}</td>
@@ -65,12 +73,41 @@
                 <td class="template-likes" data-likes="${template.numberLikes}" data-liked="${template.isLiked}">
                     <span class="like-count">${template.numberLikes}</span> 
                 </td>
+            </tr>
+            <tr class="submenu-row" data-id="${template.id}" data-section="${section}" style="display: none;">
+                <td colspan="100%">
+                    <div class="container submenu-content">
+                        <div class="card p-3 shadow-sm">
+                            <div class="row g-3">
+                                <div class="col-md-9">
+                                    <h5 class="fw-bold">${template.title}</h5>
+                                    <p>${template.description}</p>
+                                    <p class="text-muted"><strong>${localizedStrings.tags}:</strong> ${template.tags}</p>
+                                    <input type="text"  id="comment-input" class="form-control" placeholder="${localizedStrings.addComment}" data-id="${template.id}">
+                                    <p class="text-muted mb-1"><strong>${localizedStrings.comments}</strong></p>
+                                    <div class="comment-list">
+                                        ${template.comments.map(comment => `
+                                            <div class="comment-item border-bottom py-2">
+                                                <strong>${comment.userName}</strong> 
+                                                <span class="text-muted small">
+                                                    (${new Date(comment.commentedAt).toLocaleString()})
+                                                </span>
+                                                <p class="mb-0">${comment.content}</p>
+                                            </div>
+                                        `).join("")}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>`;
             tableBody.innerHTML += row;
         });
+        attachSubmenuHandlers();
+        attachCommentHandlers();
         attachRowClickHandlers();
     }
-
     function attachRowClickHandlers() {
         document.querySelectorAll(".clickable-row").forEach(row => {
             row.addEventListener("click", function () {
@@ -104,6 +141,31 @@
                         this.setAttribute("data-liked", isLiked ? "false" : "true");
                         likeCountSpan.textContent = newLikes;         
                     })
+            });
+        });
+    }
+
+    function attachSubmenuHandlers() {
+        document.querySelectorAll(".template-submenu").forEach(toggle => {
+            toggle.addEventListener("click", function (event) {
+                event.stopPropagation();
+
+                let tr = this.closest("tr");
+                let templateId = tr.getAttribute("data-id");
+                let section = tr.getAttribute("data-section");
+                let submenuRow = document.querySelector(`#${section} .submenu-row[data-id="${templateId}"]`);
+
+                if (submenuRow.style.display === "none") {
+                    submenuRow.style.display = "table-row";
+                    this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+                                        <path d="M1.5 6.5L8 12l6.5-5.5z"/>
+                                     </svg>`;
+                } else {
+                    submenuRow.style.display = "none";
+                    this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                                         <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"/>
+                                     </svg>`;
+                }
             });
         });
     }
@@ -155,4 +217,59 @@
             }
         });
     });
+
+    function attachCommentHandlers() {
+        document.querySelectorAll("#comment-input").forEach(input => {
+            input.addEventListener("keypress", async function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    await submitComment(this);
+                }
+            });
+        });
+    }
+
+    async function submitComment(inputElement) {
+        const content = inputElement.value.trim();
+        const templateId = inputElement.dataset.id;
+
+        if (!content) return;
+
+        try {
+            const response = await fetch("/Comment/Create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ templateId, content })
+            });
+
+            if (!response.ok) {
+                console.error("Failed to submit comment");
+                return;
+            }
+
+            const commentList = inputElement.closest(".submenu-content").querySelector(".comment-list");
+
+            const newComment = {
+                userName: localizedStrings.yourСomment, 
+                commentedAt: new Date().toISOString(),
+                content: content
+            };
+
+            commentList.innerHTML += `
+                <div class="comment-item border-bottom py-2">
+                    <strong>${newComment.userName}</strong> 
+                    <span class="text-muted small">
+                        (${new Date(newComment.commentedAt).toLocaleString()})
+                    </span>
+                    <p class="mb-0">${newComment.content}</p>
+                </div>
+            `;
+
+            inputElement.value = "";
+        } catch (error) {
+            console.error("Error submitting comment:", error);
+        }
+    }
 });

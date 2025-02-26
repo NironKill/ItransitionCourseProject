@@ -15,15 +15,13 @@ namespace CustomForms.Controllers
         private readonly IAccessTokenService _accessToken;
 
         private readonly IUserRepository _user;
-        private readonly ITemplateRepository _template;
         private readonly ILikeRepository _like;
 
-        public LikeController(IAccessTokenService accessToken, IUserRepository user, ITemplateRepository template, ILikeRepository like)
+        public LikeController(IAccessTokenService accessToken, IUserRepository user, ILikeRepository like)
         {
             _accessToken=accessToken;
 
             _user = user;
-            _template = template;
             _like = like;
         }
 

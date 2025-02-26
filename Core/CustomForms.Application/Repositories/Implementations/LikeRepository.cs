@@ -45,12 +45,12 @@ namespace CustomForms.Application.Repositories.Implementations
             ICollection<LikeDTO> dtos = new List<LikeDTO>();
             foreach (Like like in likes)
             {
-                LikeDTO dTO = new LikeDTO()
+                LikeDTO dto = new LikeDTO()
                 {
                     UserId = like.UserId,
                     TemplateId = like.TemplateId
                 };
-                dtos.Add(dTO);
+                dtos.Add(dto);
             }
             return dtos;
         }

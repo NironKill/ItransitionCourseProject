@@ -79,6 +79,23 @@ namespace CustomForms.Application.Repositories.Implementations
 
             return dto;
         }
+        public async Task<UserDTO> GetById(Guid userId)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+            IList<string> roles = await _userManager.GetRolesAsync(user);
+
+            UserDTO dto = new UserDTO()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = $"{user.FirstName} {user.LastName}",
+                LockoutEnabled = user.LockoutEnabled,
+                Role = roles.FirstOrDefault()
+            };
+
+            return dto;
+        }
         public async Task Lock(ICollection<string> listEmail)
         {
             foreach (string email in listEmail)
