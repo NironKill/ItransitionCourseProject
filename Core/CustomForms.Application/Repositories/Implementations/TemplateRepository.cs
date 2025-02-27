@@ -143,7 +143,7 @@ namespace CustomForms.Application.Repositories.Implementations
                     Title = template.Title,
                     Description = template.Description,
                     TopicId = template.TopicId,
-                    Tags = string.Join(" ", tags.Select(x => x.Name)),
+                    Tags = string.Join(" ", tags.Select(x => $"#{x.Name.ToLower()}")),
                     IsPublic = template.IsPublic
                 };
                 dtos.Add(dto);

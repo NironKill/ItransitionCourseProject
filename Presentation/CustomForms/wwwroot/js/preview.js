@@ -49,7 +49,7 @@
 
         switch (question.Type) {
             case 2: 
-                staticHtml = `<p class="form-control-plaintext text-muted">${localizedStrings.placeholderInteger}</p>`;
+                staticHtml = `<p class="form-control-plaintext text-muted">${localizedStrings.placeholderSingleline}</p>`;
                 break;
             case 3: 
                 staticHtml = `<p class="form-control-plaintext text-muted">${localizedStrings.placeholderMultiline}</p>`;

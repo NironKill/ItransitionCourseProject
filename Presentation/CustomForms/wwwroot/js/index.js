@@ -82,7 +82,7 @@
                                 <div class="col-md-9">
                                     <h5 class="fw-bold">${template.title}</h5>
                                     <p>${template.description}</p>
-                                    <p class="text-muted"><strong>${localizedStrings.tags}:</strong> ${template.tags}</p>
+                                    <p class="text-muted template-tags"><strong>${localizedStrings.tags}:</strong> ${template.tags}</p>
                                     <input type="text"  id="comment-input" class="form-control" placeholder="${localizedStrings.addComment}" data-id="${template.id}">
                                     <p class="text-muted mb-1"><strong>${localizedStrings.comments}</strong></p>
                                     <div class="comment-list">
@@ -205,17 +205,21 @@
     showSectionFromHash();
 
     filterInput.addEventListener("input", function () {
-        const searchTerm = filterInput.value.toLowerCase();
+        const searchTerms = filterInput.value.toLowerCase().trim().split(/\s+/);
 
         document.querySelectorAll(".template-table tbody .template-row").forEach(row => {
             const title = row.querySelector(".template-title").textContent.toLowerCase();
             const topic = row.querySelector(".template-topic").textContent.toLowerCase();
+            const tagElement = row.nextElementSibling?.querySelector(".template-tags");
+            const tags = tagElement ? tagElement.textContent.toLowerCase().split(/\s+/) : [];;
 
-            if (title.includes(searchTerm) || topic.includes(searchTerm)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
+            const matchesAllTerms = searchTerms.every(term =>
+                title.includes(term) ||
+                topic.includes(term) ||
+                tags.some(tag => tag.includes(term))
+            );
+
+            row.style.display = matchesAllTerms ? "" : "none";
         });
     });
 
