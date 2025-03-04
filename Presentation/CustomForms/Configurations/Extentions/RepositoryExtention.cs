@@ -18,6 +18,7 @@ namespace CustomForms.Configurations.Extentions
             builder.Services.AddScoped<ITemplateTagRepository, TemplateTagRepository>();
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();
             builder.Services.AddScoped<IOptionRepository, OptionRepository>();
+            builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
             return builder;
         }

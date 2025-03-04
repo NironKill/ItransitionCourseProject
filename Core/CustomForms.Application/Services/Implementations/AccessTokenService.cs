@@ -3,6 +3,7 @@ using CustomForms.Application.Services.Interfaces;
 using CustomForms.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace CustomForms.Application.Services.Implementations
 {
@@ -51,6 +52,13 @@ namespace CustomForms.Application.Services.Implementations
                 _context.UserTokens.Remove(tokenEntry);
                 await _context.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task<string> GetByUserId(Guid userId)
+        {
+            IdentityUserToken<Guid> tokenEntry = await _context.UserTokens.FirstOrDefaultAsync(t => t.UserId == userId && t.LoginProvider == "API");
+
+            return tokenEntry.Value;
         }
     }
 }

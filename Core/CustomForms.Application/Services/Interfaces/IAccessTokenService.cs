@@ -5,5 +5,6 @@
         Task<string> Create(Guid userId, CancellationToken cancellationToken);
         Task<bool> ValidateToken(string token);
         Task InvalidateToken(Guid userId, CancellationToken cancellationToken);
+        Task<string> GetByUserId(Guid userId);
     }
 }

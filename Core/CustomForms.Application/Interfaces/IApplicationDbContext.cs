@@ -16,7 +16,8 @@ namespace CustomForms.Application.Interfaces
         DbSet<Topic> Topics { get; set; }
         DbSet<TemplateTag> TemplateTags { get; set; }
         DbSet<Option> Options { get; set; }
-        
+        DbSet<Ticket> Tickets { get; set; }
+
         DbSet<User> Users { get; set; }
         DbSet<IdentityUserToken<Guid>> UserTokens { get; set; }
 

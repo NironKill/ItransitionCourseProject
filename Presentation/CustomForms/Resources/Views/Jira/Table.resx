@@ -117,67 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddComment" xml:space="preserve">
-    <value>Add a comment...</value>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
   </data>
-  <data name="AdminManage" xml:space="preserve">
-    <value>Managing templates as an administrator</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
-  <data name="AdminMenu" xml:space="preserve">
-    <value>Admin Menu</value>
-  </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Comments</value>
-  </data>
-  <data name="GeneralTemplates" xml:space="preserve">
-    <value>Сommon Templates</value>
-  </data>
-  <data name="Jira" xml:space="preserve">
-    <value>Your Tickets</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Log out</value>
-  </data>
-  <data name="Menu" xml:space="preserve">
-    <value>Main menu</value>
-  </data>
-  <data name="MyForms" xml:space="preserve">
-    <value>My Completed Forms</value>
-  </data>
-  <data name="MyTemplates" xml:space="preserve">
-    <value>My Templates</value>
-  </data>
-  <data name="NewTemplate" xml:space="preserve">
-    <value>Create your own template</value>
-  </data>
-  <data name="Private" xml:space="preserve">
-    <value>Private</value>
-  </data>
-  <data name="Public" xml:space="preserve">
-    <value>Public</value>
-  </data>
-  <data name="SearchTemplate" xml:space="preserve">
-    <value>Search templates...</value>
-  </data>
-  <data name="TabAccess" xml:space="preserve">
-    <value>Access</value>
-  </data>
-  <data name="TabAuthor" xml:space="preserve">
-    <value>Author</value>
-  </data>
-  <data name="TabTitle" xml:space="preserve">
-    <value>Title</value>
-  </data>
-  <data name="TabTopic" xml:space="preserve">
-    <value>Topic</value>
-  </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Tags</value>
-  </data>
-  <data name="UserAcc" xml:space="preserve">
-    <value>Account</value>
-  </data>
-  <data name="YourСomment" xml:space="preserve">
-    <value>Your comment</value>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
   </data>
 </root>

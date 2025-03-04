@@ -75,3 +75,34 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.hash = "#generalTemplates";
     }
 });
+
+document.getElementById("ticketForm").addEventListener("submit", function (event) {
+    event.preventDefault(); 
+
+    const summary = document.getElementById("summary").value;
+    const priority = document.getElementById("priority").value;
+    const pageUrl = window.location.href;
+
+    if (!summary || !priority) {
+        alert("The title and priority must be entered.");
+        return;
+    }
+
+    fetch("/Jira/Create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            summary: summary,
+            priority: priority,
+            pageUrl: pageUrl
+        })
+    })
+        .then(response => {
+            if (response.ok) {
+                bootstrap.Modal.getInstance(document.getElementById('ticketModal')).hide();
+            } else {
+                alert("An error occurred. Please try again.");
+            }
+        })
+        .catch(error => console.error("Error when sending a request:", error));
+});

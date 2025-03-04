@@ -13,13 +13,11 @@ namespace CustomForms.Application.Repositories.Implementations
     {
         private readonly IApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
 
-        public UserRepository(IApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserRepository(IApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public async Task<ICollection<UserDTO>> GetAll(Guid id)
@@ -96,6 +94,25 @@ namespace CustomForms.Application.Repositories.Implementations
 
             return dto;
         }
+        public async Task<UserDTO> GetByApiToken(string apiToken)
+        {
+            Guid userId = await _context.UserTokens.Where(t => t.Value == apiToken && t.LoginProvider == "API").Select(x => x.UserId).FirstOrDefaultAsync();
+
+            User user = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+            IList<string> roles = await _userManager.GetRolesAsync(user);
+
+            UserDTO dto = new UserDTO()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = $"{user.FirstName} {user.LastName}",
+                LockoutEnabled = user.LockoutEnabled,
+                Role = roles.FirstOrDefault()
+            };
+
+            return dto;
+        }
         public async Task Lock(ICollection<string> listEmail)
         {
             foreach (string email in listEmail)
@@ -135,7 +152,6 @@ namespace CustomForms.Application.Repositories.Implementations
 
             await _userManager.UpdateAsync(user);
         }
-
         public async Task Privilege(ICollection<string> emails)
         {
             foreach (string email in emails)
@@ -148,7 +164,6 @@ namespace CustomForms.Application.Repositories.Implementations
                 await _userManager.AddToRoleAsync(user, Role.Admin.ToString());
             }
         }
-
         public async Task Deprivilege(ICollection<string> emails)
         {
             foreach (string email in emails)

@@ -132,6 +132,9 @@
   <data name="GeneralTemplates" xml:space="preserve">
     <value>Сommon Templates</value>
   </data>
+  <data name="Jira" xml:space="preserve">
+    <value>Your Tickets</value>
+  </data>
   <data name="Logout" xml:space="preserve">
     <value>Log out</value>
   </data>

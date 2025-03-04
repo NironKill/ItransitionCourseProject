@@ -16,6 +16,8 @@ namespace CustomForms.Persistence.EntityTypeConfigurations
 
             builder.HasMany(u => u.Comments).WithOne(c => c.User).HasForeignKey(c => c.UserId);
 
+            builder.HasMany(u => u.Tickets).WithOne(t => t.User).HasForeignKey(t => t.UserId);
+
             builder.HasIndex(u => u.Email).IsUnique();
         }
     }

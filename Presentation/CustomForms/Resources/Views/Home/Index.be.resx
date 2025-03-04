@@ -132,6 +132,9 @@
   <data name="GeneralTemplates" xml:space="preserve">
     <value>Агульныя Шаблоны</value>
   </data>
+  <data name="Jira" xml:space="preserve">
+    <value>Вашы Скаргі</value>
+  </data>
   <data name="Logout" xml:space="preserve">
     <value>Выйсці</value>
   </data>

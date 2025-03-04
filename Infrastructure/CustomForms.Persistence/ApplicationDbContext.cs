@@ -18,6 +18,7 @@ namespace CustomForms.Persistence
         public DbSet<Topic> Topics { get; set; }
         public DbSet<TemplateTag> TemplateTags { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
