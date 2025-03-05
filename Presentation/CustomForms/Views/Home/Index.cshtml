@@ -69,6 +69,14 @@
                     <li><span class="dropdown-item-text fw-bold" id="user-fullname">@fullName</span></li>
                     <li><span class="dropdown-item-text text-muted small" id="user-email">@email</span></li>
                     <li><hr class="dropdown-divider"></li>
+                    @if (!@ViewBag.IsSalesforceId)
+                    {
+                        <li>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#salesforceModal">
+                                @Localizer["Salesforce"]
+                            </button>
+                        </li>
+                    }
                     <li><a href="@Url.Action("Logout", "Account")" class="dropdown-item text-danger">@Localizer["Logout"]</a></li>
                 </ul>
             }
@@ -80,6 +88,44 @@
                     });
                 </script>
             }
+        </div>
+
+        <div class="modal fade" id="salesforceModal" tabindex="-1" aria-labelledby="salesforceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="salesforceModalLabel">@Localizer["SalesTitle"]</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="salesforceForm">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">@Localizer["Firstname"]</label>
+                                <input type="text" value="@ViewBag.Firstname" class="form-control" id="firstName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">@Localizer["Lastname"]</label>
+                                <input type="text" value="@ViewBag.Lastname" class="form-control" id="lastName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">@Localizer["Title"]</label>
+                                <input type="text" class="form-control" id="description">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">@Localizer["Phone"]</label>
+                                <input type="tel" class="form-control" id="phone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="birthdate" class="form-label">@Localizer["Birthdate"]</label>
+                                <input type="date" class="form-control" id="birthdate">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">@Localizer["CreateSales"]</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 

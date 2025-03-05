@@ -2,8 +2,6 @@
 {
     public interface IApiService
     {
-        string GetJiraUsername();
-        string GetJiraApiToken();
-        string GetJiraURL();
+        string GetApiConfiguration(string option);
     }
 }

@@ -41,6 +41,9 @@ namespace CustomForms.Controllers
 
             Guid userId = Guid.Empty;
             string role = "User";
+            bool isSalesforceId = false;
+            string firstname = string.Empty;
+            string lastname = string.Empty;
             if (User.Identity.IsAuthenticated)
             {
                 string userEmail = User.Identity.Name;
@@ -48,6 +51,12 @@ namespace CustomForms.Controllers
                 userId = user.Id;
                 role = user.Role;
                 formDtos = await _form.GetAllByUserId(userId);
+                string[] nameSplit = user.Name.Split(new[] { ' ' }, 2);
+                firstname = nameSplit[0];
+                lastname = string.Join(" ", nameSplit.Skip(1));
+
+                if (!string.IsNullOrEmpty(user.SalesforceAccountId))
+                    isSalesforceId = true;
             }
 
             List<TemplateListModel> templateListModels = new List<TemplateListModel>();
@@ -83,6 +92,9 @@ namespace CustomForms.Controllers
                 templateListModels.Add(model);
             }
 
+            ViewBag.Firstname = firstname;
+            ViewBag.Lastname = lastname;
+            ViewBag.IsSalesforceId = isSalesforceId;
             ViewBag.Role = role;
             ViewBag.CurrentUserId = userId;
             return View(templateListModels);

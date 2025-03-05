@@ -277,4 +277,36 @@
             console.error("Error submitting comment:", error);
         }
     }
+
+    document.getElementById("salesforceForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            description: document.getElementById("description").value,
+            phone: document.getElementById("phone").value,
+            birthdate: document.getElementById("birthdate").value
+        };
+
+        try {
+            const response = await fetch("/Salesforce/Create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                const errorText = await response.text();
+                alert(`Failed to create account: ${errorText}`);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Something went wrong. Please try again.");
+        }
+    });
 });

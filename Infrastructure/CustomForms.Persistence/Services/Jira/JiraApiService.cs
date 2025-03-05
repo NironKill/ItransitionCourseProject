@@ -1,6 +1,7 @@
 ﻿using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
+using CustomForms.Persistence.Responses.JIra;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
@@ -18,7 +19,7 @@ namespace CustomForms.Persistence.Services.Jira
             _ticket = ticket;
         }
 
-        public async Task<bool> CreateIssue(JiraUserDTO jiraUserDTO, TicketDTO ticketDTO, CancellationToken cancellationToken)
+        public async Task<bool> CreateIssue(JiraUserResponse jiraUserResponse, TicketDTO ticketDTO, CancellationToken cancellationToken)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -30,7 +31,7 @@ namespace CustomForms.Persistence.Services.Jira
                     {
                         project = new { key = "MFLP" },
                         summary = ticketDTO.Summary,
-                        reporter = new { id = jiraUserDTO.AccountId ?? "" },
+                        reporter = new { id = jiraUserResponse.AccountId ?? "" },
                         priority = new { name = ticketDTO.Priority },
                         issuetype = new { name = "Bug" },
                         customfield_10090 = ticketDTO.PageUrl,
@@ -58,13 +59,13 @@ namespace CustomForms.Persistence.Services.Jira
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    IssueDTO issueDto = JsonConvert.DeserializeObject<IssueDTO>(responseData);
+                    IssueResponse issueDto = JsonConvert.DeserializeObject<IssueResponse>(responseData);
 
                     if (issueDto == null)
                         return false;
 
                     ticketDTO.TicketUrl = $"{_jira.GetUrl()}/browse/{issueDto.Key}";
-                    ticketDTO.AccountId = jiraUserDTO.AccountId;
+                    ticketDTO.AccountId = jiraUserResponse.AccountId;
                     ticketDTO.Key = issueDto.Key;
                     ticketDTO.TicketJiraId = issueDto.Id;
 
@@ -72,11 +73,11 @@ namespace CustomForms.Persistence.Services.Jira
 
                     return true;
                 }
+                return false;
             }
-            return false;
         }
 
-        public async Task<JiraUserDTO> CreateUser(UserDTO dto)
+        public async Task<JiraUserResponse> CreateUser(UserDTO dto)
         {
             var payload = new
             {
@@ -95,13 +96,13 @@ namespace CustomForms.Persistence.Services.Jira
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<JiraUserDTO>(responseData);
+                    return JsonConvert.DeserializeObject<JiraUserResponse>(responseData);
                 }
+                return null;
             }
-            return null;
         }
 
-        public async Task<JiraUserDTO> GetUserByEmail(string email)
+        public async Task<JiraUserResponse> GetUserByEmail(string email)
         {
             var destination = $"{_jira.GetUrl()}/rest/api/3/user/search?query={email}";
 
@@ -114,11 +115,10 @@ namespace CustomForms.Persistence.Services.Jira
                 if (response.IsSuccessStatusCode)
                 {
                     var responseAsJson = await response.Content.ReadAsStringAsync();
-                    List<JiraUserDTO> users = JsonConvert.DeserializeObject<List<JiraUserDTO>>(responseAsJson);
+                    List<JiraUserResponse> users = JsonConvert.DeserializeObject<List<JiraUserResponse>>(responseAsJson);
 
                     return users?.FirstOrDefault();
                 }
-
                 return null;
             }
         }
@@ -136,7 +136,7 @@ namespace CustomForms.Persistence.Services.Jira
                 if (response.IsSuccessStatusCode)
                 {
                     var responseAsJson = await response.Content.ReadAsStringAsync();
-                    IssuelistDTO issues = JsonConvert.DeserializeObject<IssuelistDTO>(responseAsJson);
+                    IssuelistResponse issues = JsonConvert.DeserializeObject<IssuelistResponse>(responseAsJson);
 
                     List<TicketDTO> tickets = new List<TicketDTO>();
 
@@ -153,7 +153,6 @@ namespace CustomForms.Persistence.Services.Jira
                     }
                     return tickets;
                 }
-
                 return null;
             }
         }

@@ -2,6 +2,7 @@
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
 using CustomForms.Models.Jira;
+using CustomForms.Persistence.Responses.JIra;
 using CustomForms.Persistence.Services.Jira;
 using CustomForms.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -42,6 +43,9 @@ namespace CustomForms.Controllers
 
             string accountId = await _ticket.GetAccountId(user.Id) ?? string.Empty;
 
+            if (string.IsNullOrEmpty(accountId))
+                return RedirectToAction("Index", "Home");
+
             List<TicketDTO> ticketsDTO = await _jiraApi.GetAllTicketByAccountId(accountId);
 
             List<TicketModel> models = new List<TicketModel>();
@@ -72,9 +76,9 @@ namespace CustomForms.Controllers
             if (user.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
-            JiraUserDTO jiraUserDTO = await _jiraApi.GetUserByEmail(user.Email) ?? await _jiraApi.CreateUser(user);
+            JiraUserResponse jiraUserResponse = await _jiraApi.GetUserByEmail(user.Email) ?? await _jiraApi.CreateUser(user);
 
-            if (jiraUserDTO is null)
+            if (jiraUserResponse is null)
                 return BadRequest("User creation failed.");
 
             TicketDTO ticketDTO = new TicketDTO()
@@ -85,7 +89,7 @@ namespace CustomForms.Controllers
                 UserId = user.Id
             };
 
-            bool issueEx = await _jiraApi.CreateIssue(jiraUserDTO, ticketDTO, cancellationToken);
+            bool issueEx = await _jiraApi.CreateIssue(jiraUserResponse, ticketDTO, cancellationToken);
 
             if (issueEx is false)
                 return BadRequest("Issue has not been created.");

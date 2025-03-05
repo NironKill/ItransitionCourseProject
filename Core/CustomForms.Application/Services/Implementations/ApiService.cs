@@ -9,36 +9,14 @@ namespace CustomForms.Application.Services.Implementations
 
         public ApiService(IConfiguration configuration) => _configuration = configuration;
 
-        public string GetJiraApiToken()
+        public string GetApiConfiguration(string option)
         {
-            string token = _configuration["Jira:ApiToken"];
+            string connString = _configuration[option];
 
-            if (!string.IsNullOrEmpty(token))
-                return token;
+            if (!string.IsNullOrEmpty(connString))
+                return connString;
 
-            string envString = Environment.GetEnvironmentVariable("JIRA_API_TOKEN");
-
-            return envString;
-        }
-        public string GetJiraURL()
-        {
-            string url = _configuration["Jira:Url"];
-
-            if (!string.IsNullOrEmpty(url))
-                return url;
-
-            string envString = Environment.GetEnvironmentVariable("JIRA_URL");
-
-            return envString;
-        }
-        public string GetJiraUsername()
-        {
-            string username = _configuration["Jira:Username"];
-
-            if (!string.IsNullOrEmpty(username))
-                return username;
-
-            string envString = Environment.GetEnvironmentVariable("JIRA_USERNAME");
+            string envString = Environment.GetEnvironmentVariable(option);
 
             return envString;
         }

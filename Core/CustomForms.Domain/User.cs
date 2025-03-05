@@ -7,6 +7,7 @@ namespace CustomForms.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool LockoutEnabled { get; set; } = false;
+        public string SalesforceAccountId { get; set; } = string.Empty;
 
         public ICollection<Template> Templates { get; set; }
         public ICollection<Like> Likes { get; set; }

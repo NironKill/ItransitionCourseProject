@@ -5,7 +5,6 @@ using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace CustomForms.Application.Repositories.Implementations
 {
@@ -72,7 +71,8 @@ namespace CustomForms.Application.Repositories.Implementations
                 Email = user.Email,
                 Name = $"{user.FirstName} {user.LastName}",
                 LockoutEnabled = user.LockoutEnabled,
-                Role = roles.FirstOrDefault()
+                Role = roles.FirstOrDefault(),
+                SalesforceAccountId = user.SalesforceAccountId
             };
 
             return dto;
@@ -146,9 +146,11 @@ namespace CustomForms.Application.Repositories.Implementations
                 await _userManager.DeleteAsync(user);
             }
         }
-        public async Task Update(string email)
+        public async Task Update(UserDTO dto)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+            user.SalesforceAccountId = dto.SalesforceAccountId;
 
             await _userManager.UpdateAsync(user);
         }
