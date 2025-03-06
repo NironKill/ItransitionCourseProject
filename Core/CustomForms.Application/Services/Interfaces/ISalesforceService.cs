@@ -2,7 +2,7 @@
 {
     public interface ISalesforceService
     {
-        string GetApiToken();
+        Dictionary<string, string> GetFormData();
         string GetUrl();
     }
 }

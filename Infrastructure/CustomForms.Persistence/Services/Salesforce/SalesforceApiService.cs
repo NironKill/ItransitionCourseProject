@@ -1,4 +1,5 @@
-﻿using CustomForms.Application.Services.Interfaces;
+﻿using CustomForms.Application.DTOs;
+using CustomForms.Application.Services.Interfaces;
 using CustomForms.Persistence.DTOs;
 using CustomForms.Persistence.Responses.Salesforce;
 using Newtonsoft.Json;
@@ -13,11 +14,35 @@ namespace CustomForms.Persistence.Services.Salesforce
 
         public SalesforceApiService(ISalesforceService salesforce) => _salesforce = salesforce;
 
+        public async Task<string> GetAsseccToken()
+        {
+            Dictionary<string, string> formData = _salesforce.GetFormData();
+
+            using (HttpClient client = new HttpClient())
+            {
+                FormUrlEncodedContent content = new FormUrlEncodedContent(formData);
+                HttpResponseMessage response = await client.PostAsync($"{_salesforce.GetUrl()}/services/oauth2/token", content);
+
+                response.EnsureSuccessStatusCode();
+                try
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<AccessTokenResponse>(jsonResponse);
+                    var resultToken = result is AccessTokenResponse responseData ? responseData.access_token : null;
+
+                    return resultToken;
+                }
+                catch (Exception)
+                {
+                    return string.Empty;
+                }
+            }
+        }
         public async Task<string> CreateAccount(SalesforceUserDTO dto)
         {
-            string token = _salesforce.GetApiToken();
+            string token = await GetAsseccToken();
 
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -52,10 +77,11 @@ namespace CustomForms.Persistence.Services.Salesforce
                 }
                 return string.Empty;
             }
-        }     
+        }
+
         public async Task<SalesforceUserResponse> GetUser(string accountId)
         {
-            string token = _salesforce.GetApiToken();
+            string token = await GetAsseccToken();
 
             using (HttpClient client = new HttpClient())
             {
