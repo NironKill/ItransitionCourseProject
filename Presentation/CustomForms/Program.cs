@@ -53,6 +53,11 @@ builder.Services.AddAuthentication(options =>
     {
         options.ClientId = Connection.GetOptionConfiguration(builder.Configuration[GoogleOption.Id]);
         options.ClientSecret = Connection.GetOptionConfiguration(builder.Configuration[GoogleOption.Secret]);
+    })
+    .AddMicrosoftAccount(options =>
+    {
+        options.ClientId = Connection.GetOptionConfiguration(builder.Configuration[MicrosoftOption.Id]);
+        options.ClientSecret = Connection.GetOptionConfiguration(builder.Configuration[MicrosoftOption.Secret]);
     });
 
 builder.Services.AddLocalization(options => { options.ResourcesPath = "Resources"; });

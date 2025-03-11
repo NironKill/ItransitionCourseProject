@@ -118,10 +118,21 @@ namespace CustomForms.Controllers
                 isPersistent: false,
                 bypassTwoFactor: true
             );
-            if (signInResult.Succeeded)                          
-                return Content($@"<script>localStorage.setItem('authSuccess', 'true'); window.close();</script>", "text/html");
-            
             string email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            if (signInResult.Succeeded)
+            {
+                UserCreateDTO userDTO = new UserCreateDTO()
+                {
+                    Email = email,
+                    UserName = email,
+                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname)
+                };
+                await _user.UpdateName(userDTO);
+
+                return Content($@"<script>localStorage.setItem('authSuccess', 'true'); window.close();</script>", "text/html");
+            }                       
+            
             if (email is not null)
             {
                 bool userExistence = await _user.UserExistenceCheckByMail(email);

@@ -56,7 +56,7 @@ namespace CustomForms.Controllers
                 return BadRequest("Connection to Salesforce was failed. Please try again.");
 
             user.SalesforceAccountId = accountId;
-            await _user.Update(user);
+            await _user.UpdateAccountId(user);
 
             return Ok();
         }

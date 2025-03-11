@@ -174,11 +174,20 @@ namespace CustomForms.Application.Repositories.Implementations
 
             await _userManager.AddToRoleAsync(user, Role.Admin.ToString());
         }
-        public async Task Update(UserDTO dto)
+        public async Task UpdateAccountId(UserDTO dto)
         {
             User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == dto.Id);
 
             user.SalesforceAccountId = dto.SalesforceAccountId;
+
+            await _userManager.UpdateAsync(user);
+        }
+        public async Task UpdateName(UserCreateDTO dto)
+        {
+            User user = await _userManager.FindByEmailAsync(dto.Email);
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
 
             await _userManager.UpdateAsync(user);
         }
