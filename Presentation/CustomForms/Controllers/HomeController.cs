@@ -44,6 +44,8 @@ namespace CustomForms.Controllers
             bool isSalesforceId = false;
             string firstname = string.Empty;
             string lastname = string.Empty;
+            string fullname = string.Empty;
+            string email = string.Empty;
             if (User.Identity.IsAuthenticated)
             {
                 string userEmail = User.Identity.Name;
@@ -54,6 +56,8 @@ namespace CustomForms.Controllers
                 string[] nameSplit = user.Name.Split(new[] { ' ' }, 2);
                 firstname = nameSplit[0];
                 lastname = string.Join(" ", nameSplit.Skip(1));
+                fullname = user.Name;
+                email = user.Email;
 
                 if (!string.IsNullOrEmpty(user.SalesforceAccountId))
                     isSalesforceId = true;
@@ -92,6 +96,8 @@ namespace CustomForms.Controllers
                 templateListModels.Add(model);
             }
 
+            ViewBag.Fullname = fullname;
+            ViewBag.Email = email;
             ViewBag.Firstname = firstname;
             ViewBag.Lastname = lastname;
             ViewBag.IsSalesforceId = isSalesforceId;

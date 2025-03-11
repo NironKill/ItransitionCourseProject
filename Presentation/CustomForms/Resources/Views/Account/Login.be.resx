@@ -141,4 +141,7 @@
   <data name="TextLogin" xml:space="preserve">
     <value>У вас няма акаўнта?</value>
   </data>
+  <data name="ExternalLogin" xml:space="preserve">
+    <value>Увайсьці праз сацсеткі</value>
+  </data>
 </root>

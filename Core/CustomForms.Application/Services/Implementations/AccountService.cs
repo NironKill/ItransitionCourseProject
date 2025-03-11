@@ -1,8 +1,8 @@
 ﻿using CustomForms.Application.Common.Enums;
 using CustomForms.Application.DTOs;
-using CustomForms.Application.Interfaces;
 using CustomForms.Application.Services.Interfaces;
 using CustomForms.Domain;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
 namespace CustomForms.Application.Services.Implementations
@@ -73,6 +73,18 @@ namespace CustomForms.Application.Services.Implementations
 
             return result.Succeeded;
         }
+        public async Task ExternalAddLogin(string email, ExternalLoginInfo info)
+        {
+            User user = await _userManager.FindByEmailAsync(email);
+
+            await _userManager.AddLoginAsync(user, info);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+        }
         public async Task Logout() => await _signInManager.SignOutAsync();
+        public async Task<SignInResult> ExternalSignIn(string loginProvider, string providerKey, bool isPersistent, bool bypassTwoFactor) =>
+            await _signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent, bypassTwoFactor);   
+        public async Task<IList<AuthenticationScheme>> GetExternalLogins() => (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        public async Task<ExternalLoginInfo> GetAccountInfo() => await _signInManager.GetExternalLoginInfoAsync();
+        public AuthenticationProperties GetProperties(string provider, string redirectUrl) => _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
     }
 }

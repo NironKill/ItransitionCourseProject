@@ -5,11 +5,6 @@
 @using CustomForms.Models.AdminMenu 
 
 @{
-    string fullName = Context.Request.Cookies["Name"];
-    string email = Context.Request.Cookies["Email"];
-}
-
-@{
     ViewData["Title"] = "Admin manage";
 }
 
@@ -37,8 +32,8 @@
         @if (User.Identity.IsAuthenticated)
         {
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="admin-account-toggle">
-                <li><span class="dropdown-item-text fw-bold" id="user-fullname">@fullName</span></li>
-                <li><span class="dropdown-item-text text-muted small" id="user-email">@email</span></li>
+                <li><span class="dropdown-item-text fw-bold" id="user-fullname">@ViewBag.Fullname</span></li>
+                <li><span class="dropdown-item-text text-muted small" id="user-email">@ViewBag.Email</span></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><button class="dropdown-item text-danger" id="admin-disauthorize-yourself">@Localizer["DisauthorizeYourself"]</button></li>
             </ul>

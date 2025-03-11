@@ -51,6 +51,9 @@ namespace CustomForms.Controllers
                     };
                     models.Add(model);
                 }
+
+                ViewBag.Fullname = userDTO.Name;
+                ViewBag.Email = userDTO.Email;
                 return View(models);
             }
             return RedirectToAction("Index", "Home");

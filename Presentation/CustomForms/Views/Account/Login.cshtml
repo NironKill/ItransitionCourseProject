@@ -32,6 +32,17 @@
                     </label>
                 </div>
                 <input type="submit" value="@Localizer["Signin"]" class="btn btn-success w-100 p-2" />
+                <div class="text-center text-decoration-none mt-3">@Localizer["ExternalLogin"]</div>
+                <div class="d-flex flex-column align-items-center gap-2 mt-2">
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <button type="button" class="btn btn-primary external-login-btn"
+                                data-provider="@provider.Name"
+                                data-url="@Url.Action("ExternalAddLogin", "Account", new { provider = provider.Name, returnUrl = Model.ReturnUrl })">
+                            @provider.DisplayName
+                        </button>
+                    }
+                </div>
                 <p class="text-center mt-2">
                     @Localizer["TextLogin"] <a asp-controller="Account" asp-action="Register" class="text-decoration-none">@Localizer["Signup"]</a>
                 </p>
@@ -47,4 +58,5 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
+    <script src="~/js/login.js" asp-append-version="true"></script>
 }

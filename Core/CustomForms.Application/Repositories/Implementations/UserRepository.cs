@@ -2,9 +2,11 @@
 using CustomForms.Application.DTOs;
 using CustomForms.Application.Interfaces;
 using CustomForms.Application.Repositories.Interfaces;
+using CustomForms.Application.Services.Interfaces;
 using CustomForms.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace CustomForms.Application.Repositories.Implementations
 {
@@ -12,11 +14,15 @@ namespace CustomForms.Application.Repositories.Implementations
     {
         private readonly IApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly IAccessTokenService _accessToken;
 
-        public UserRepository(IApplicationDbContext context, UserManager<User> userManager)
+        public UserRepository(IApplicationDbContext context, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager, IAccessTokenService accessToken)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
+            _accessToken = accessToken;
         }
 
         public async Task<ICollection<UserDTO>> GetAll(Guid id)
@@ -146,6 +152,28 @@ namespace CustomForms.Application.Repositories.Implementations
                 await _userManager.DeleteAsync(user);
             }
         }
+        public async Task Create(UserCreateDTO dto, CancellationToken cancellationToken)
+        {
+            User user = new User()
+            {
+                Email = dto.Email,
+                UserName = dto.UserName,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                LockoutEnabled = false
+            };
+            await _userManager.CreateAsync(user);
+            if (!await _roleManager.RoleExistsAsync(Role.Admin.ToString()))            
+                await _roleManager.CreateAsync(new IdentityRole<Guid>(Role.Admin.ToString()));
+
+            
+            if (!await _roleManager.RoleExistsAsync(Role.User.ToString()))           
+                await _roleManager.CreateAsync(new IdentityRole<Guid>(Role.User.ToString()));
+            
+            await _accessToken.Create(user.Id, cancellationToken);
+
+            await _userManager.AddToRoleAsync(user, Role.Admin.ToString());
+        }
         public async Task Update(UserDTO dto)
         {
             User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == dto.Id);
@@ -178,5 +206,6 @@ namespace CustomForms.Application.Repositories.Implementations
                 await _userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }
+        public async Task<bool> UserExistenceCheckByMail(string email) => await _context.Users.AnyAsync(x => x.Email == email);
     }
 }

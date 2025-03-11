@@ -6,6 +6,7 @@ using CustomForms.Configurations.Extentions;
 using CustomForms.Domain;
 using CustomForms.Persistence;
 using CustomForms.Persistence.Settings;
+using CustomForms.Persistence.Settings.Authentications;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -47,6 +48,11 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = Connection.GetOptionConfiguration(builder.Configuration[GoogleOption.Id]);
+        options.ClientSecret = Connection.GetOptionConfiguration(builder.Configuration[GoogleOption.Secret]);
     });
 
 builder.Services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
@@ -92,7 +98,7 @@ builder.Services
     .AddDataAnnotationsLocalization();
 
 builder.Services.Configure<DataBaseSet>(builder.Configuration.GetSection(DataBaseSet.Configuration));
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Connection.GetConfigurationDB(
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Connection.GetOptionConfiguration(
     builder.Configuration.GetSection(DataBaseSet.Configuration).Get<DataBaseSet>().ConnectionString)));
 builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 

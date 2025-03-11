@@ -4,7 +4,7 @@ namespace CustomForms.Configurations
 {
     internal static class Connection
     {
-        internal static string GetConfigurationDB(string defaultConnection)
+        internal static string GetOptionConfiguration(string defaultConnection)
         {
             if (!string.IsNullOrEmpty(defaultConnection))
                 return defaultConnection;

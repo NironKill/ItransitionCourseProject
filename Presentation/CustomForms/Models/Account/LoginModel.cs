@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.ComponentModel.DataAnnotations;
 
 namespace CustomForms.Models.Account
 {
@@ -6,12 +7,16 @@ namespace CustomForms.Models.Account
     {
         [Required]
         [EmailAddress]
-        public required string Email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        public required string Password { get; set; }
+        public string Password { get; set; }
 
         public bool RememberMe { get; set; } = false;
+
+        public string? ReturnUrl { get; set; }
+
+        public IList<AuthenticationScheme>? ExternalLogins { get; set; }
     }
 }

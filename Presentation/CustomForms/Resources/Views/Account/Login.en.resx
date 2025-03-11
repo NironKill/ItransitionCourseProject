@@ -141,4 +141,7 @@
   <data name="TextLogin" xml:space="preserve">
     <value>Don't have an account?</value>
   </data>
+  <data name="ExternalLogin" xml:space="preserve">
+    <value>Logging in with social accounts</value>
+  </data>
 </root>

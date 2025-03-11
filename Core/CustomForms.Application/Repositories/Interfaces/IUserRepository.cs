@@ -10,6 +10,8 @@ namespace CustomForms.Application.Repositories.Interfaces
         Task Privilege(ICollection<string> emails);
         Task Deprivilege(ICollection<string> emails);
         Task Update(UserDTO dto);
+        Task Create(UserCreateDTO dto, CancellationToken cancellationToken);
+        Task<bool> UserExistenceCheckByMail(string email);
 
         Task<ICollection<UserDTO>> GetAll(Guid id);
         Task<ICollection<UserDTO>> GetAll();
