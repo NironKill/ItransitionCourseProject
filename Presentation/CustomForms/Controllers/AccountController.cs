@@ -125,8 +125,8 @@ namespace CustomForms.Controllers
                 {
                     Email = email,
                     UserName = email,
-                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
-                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname)
+                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? string.Empty,
+                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? string.Empty
                 };
                 await _user.UpdateName(userDTO);
 
@@ -142,8 +142,8 @@ namespace CustomForms.Controllers
                     {
                         Email = email,
                         UserName = email,
-                        FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
-                        LastName = info.Principal.FindFirstValue(ClaimTypes.Surname)
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? string.Empty,
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? string.Empty
                     };
                     await _user.Create(userDTO, cancellationToken);
                 }
