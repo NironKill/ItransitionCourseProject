@@ -1,8 +1,8 @@
 ﻿using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
-using CustomForms.Persistence.DTOs;
-using CustomForms.Persistence.Services.Salesforce;
+using CustomForms.Infrastructure.DTOs;
+using CustomForms.Infrastructure.Services.Salesforce;
 using CustomForms.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

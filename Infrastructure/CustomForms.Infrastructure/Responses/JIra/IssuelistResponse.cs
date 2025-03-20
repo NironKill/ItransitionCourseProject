@@ -1,6 +1,4 @@
-﻿using CustomForms.Application.DTOs;
-
-namespace CustomForms.Persistence.Responses.JIra
+﻿namespace CustomForms.Infrastructure.Responses.JIra
 {
     public class IssuelistResponse
     {

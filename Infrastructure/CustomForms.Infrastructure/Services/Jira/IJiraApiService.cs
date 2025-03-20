@@ -1,7 +1,7 @@
 ﻿using CustomForms.Application.DTOs;
-using CustomForms.Persistence.Responses.JIra;
+using CustomForms.Infrastructure.Responses.JIra;
 
-namespace CustomForms.Persistence.Services.Jira
+namespace CustomForms.Infrastructure.Services.Jira
 {
     public interface IJiraApiService
     {

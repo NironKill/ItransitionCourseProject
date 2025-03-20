@@ -1,4 +1,4 @@
-﻿namespace CustomForms.Persistence.DTOs
+﻿namespace CustomForms.Infrastructure.DTOs
 {
     public class SalesforceUserDTO
     {

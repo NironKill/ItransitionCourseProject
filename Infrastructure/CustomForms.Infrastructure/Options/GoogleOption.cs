@@ -1,4 +1,4 @@
-﻿namespace CustomForms.Persistence.Settings.Authentications
+﻿namespace CustomForms.Infrastructure.Options
 {
     public class GoogleOption
     {

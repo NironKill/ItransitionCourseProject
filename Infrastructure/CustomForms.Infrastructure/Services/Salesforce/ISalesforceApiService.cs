@@ -1,7 +1,7 @@
-﻿using CustomForms.Persistence.DTOs;
-using CustomForms.Persistence.Responses.Salesforce;
+﻿using CustomForms.Infrastructure.DTOs;
+using CustomForms.Infrastructure.Responses.Salesforce;
 
-namespace CustomForms.Persistence.Services.Salesforce
+namespace CustomForms.Infrastructure.Services.Salesforce
 {
     public interface ISalesforceApiService
     {

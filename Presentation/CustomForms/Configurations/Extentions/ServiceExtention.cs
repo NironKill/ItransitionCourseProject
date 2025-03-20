@@ -1,7 +1,7 @@
 ﻿using CustomForms.Application.Services.Implementations;
 using CustomForms.Application.Services.Interfaces;
-using CustomForms.Persistence.Services.Jira;
-using CustomForms.Persistence.Services.Salesforce;
+using CustomForms.Infrastructure.Services.Jira;
+using CustomForms.Infrastructure.Services.Salesforce;
 
 namespace CustomForms.Configurations.Extentions
 {

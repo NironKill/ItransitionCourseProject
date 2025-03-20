@@ -1,9 +1,9 @@
 ﻿using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
+using CustomForms.Infrastructure.Responses.JIra;
+using CustomForms.Infrastructure.Services.Jira;
 using CustomForms.Models.Jira;
-using CustomForms.Persistence.Responses.JIra;
-using CustomForms.Persistence.Services.Jira;
 using CustomForms.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -6,6 +6,7 @@ WORKDIR /src
 
 COPY ["Presentation/CustomForms/CustomForms.csproj", "Presentation/CustomForms/"]
 COPY ["Infrastructure/CustomForms.Persistence/CustomForms.Persistence.csproj", "Infrastructure/CustomForms.Persistence/"]
+COPY ["Infrastructure/CustomForms.Infrastructure/CustomForms.Infrastructure.csproj", "Infrastructure/CustomForms.Infrastructure/"]
 COPY ["Core/CustomForms.Domain/CustomForms.Domain.csproj", "Core/CustomForms.Domain/"]
 COPY ["Core/CustomForms.Application/CustomForms.Application.csproj", "Core/CustomForms.Application/"]
 RUN dotnet restore "Presentation/CustomForms/CustomForms.csproj"

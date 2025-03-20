@@ -1,12 +1,11 @@
-﻿using CustomForms.Application.DTOs;
-using CustomForms.Application.Services.Interfaces;
-using CustomForms.Persistence.DTOs;
-using CustomForms.Persistence.Responses.Salesforce;
+﻿using CustomForms.Application.Services.Interfaces;
+using CustomForms.Infrastructure.DTOs;
+using CustomForms.Infrastructure.Responses.Salesforce;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace CustomForms.Persistence.Services.Salesforce
+namespace CustomForms.Infrastructure.Services.Salesforce
 {
     public class SalesforceApiService : ISalesforceApiService
     {

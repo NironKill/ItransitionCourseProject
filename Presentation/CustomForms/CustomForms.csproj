@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\CustomForms.Application\CustomForms.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\CustomForms.Infrastructure\CustomForms.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\CustomForms.Persistence\CustomForms.Persistence.csproj" />
   </ItemGroup>
 

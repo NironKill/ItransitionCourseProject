@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomForms.Persistence", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomForms", "Presentation\CustomForms\CustomForms.csproj", "{2C3512FF-CB75-4089-A0DE-9647A624BF9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomForms.Infrastructure", "Infrastructure\CustomForms.Infrastructure\CustomForms.Infrastructure.csproj", "{645869BF-4E92-4DCA-9927-1D3FB00BC43D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2C3512FF-CB75-4089-A0DE-9647A624BF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C3512FF-CB75-4089-A0DE-9647A624BF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C3512FF-CB75-4089-A0DE-9647A624BF9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{645869BF-4E92-4DCA-9927-1D3FB00BC43D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{645869BF-4E92-4DCA-9927-1D3FB00BC43D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{645869BF-4E92-4DCA-9927-1D3FB00BC43D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{645869BF-4E92-4DCA-9927-1D3FB00BC43D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,9 @@ Global
 		{247FFA28-9BF0-4043-93F3-DE42AAAE5C00} = {D1CD1D15-0EB8-437F-8D96-2B74114BE1FB}
 		{F78483CF-4798-4121-B975-4B3BDBA08AFA} = {14610323-8B58-46E0-9AA2-FE7CC59282AE}
 		{2C3512FF-CB75-4089-A0DE-9647A624BF9E} = {EB1F95D6-998B-415B-8884-9966A8D93AC9}
+		{645869BF-4E92-4DCA-9927-1D3FB00BC43D} = {14610323-8B58-46E0-9AA2-FE7CC59282AE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5023EE10-9D55-44A7-99DC-18403BA09226}
 	EndGlobalSection
 EndGlobal

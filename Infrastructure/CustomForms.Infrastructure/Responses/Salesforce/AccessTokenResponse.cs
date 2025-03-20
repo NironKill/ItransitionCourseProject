@@ -1,4 +1,4 @@
-﻿namespace CustomForms.Persistence.Responses.Salesforce
+﻿namespace CustomForms.Infrastructure.Responses.Salesforce
 {
     public class AccessTokenResponse
     {

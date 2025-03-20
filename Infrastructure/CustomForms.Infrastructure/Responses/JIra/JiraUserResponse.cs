@@ -1,4 +1,4 @@
-﻿namespace CustomForms.Persistence.Responses.JIra
+﻿namespace CustomForms.Infrastructure.Responses.JIra
 {
     public class JiraUserResponse
     {

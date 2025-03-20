@@ -1,12 +1,12 @@
 ﻿using CustomForms.Application.DTOs;
 using CustomForms.Application.Repositories.Interfaces;
 using CustomForms.Application.Services.Interfaces;
-using CustomForms.Persistence.Responses.JIra;
+using CustomForms.Infrastructure.Responses.JIra;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
 
-namespace CustomForms.Persistence.Services.Jira
+namespace CustomForms.Infrastructure.Services.Jira
 {
     public class JiraApiService : IJiraApiService
     {
@@ -69,7 +69,7 @@ namespace CustomForms.Persistence.Services.Jira
                     ticketDTO.Key = issueDto.Key;
                     ticketDTO.TicketJiraId = issueDto.Id;
 
-                    await _ticket.Create(ticketDTO, cancellationToken); 
+                    await _ticket.Create(ticketDTO, cancellationToken);
 
                     return true;
                 }
@@ -147,7 +147,7 @@ namespace CustomForms.Persistence.Services.Jira
                             TicketUrl = $"{_jira.GetUrl()}/browse/{issue.Key}",
                             Status = issue.Fields.Status.Name,
                             Priority = issue.Fields.Priority.Name,
-                            Summary = issue.Fields.Summary       
+                            Summary = issue.Fields.Summary
                         };
                         tickets.Add(ticket);
                     }
