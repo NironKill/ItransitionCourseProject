@@ -6,6 +6,7 @@ using CustomForms.Application.Services.Interfaces;
 using CustomForms.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Threading;
 
 namespace CustomForms.Application.Repositories.Implementations
@@ -25,9 +26,14 @@ namespace CustomForms.Application.Repositories.Implementations
             _accessToken = accessToken;
         }
 
-        public async Task<ICollection<UserDTO>> GetAll(Guid id)
+        public async Task<ICollection<UserDTO>> GetAll(Guid? id = null)
         {
-            List<User> users = await _context.Users.Where(x => x.Id != id).ToListAsync();
+            IQueryable<User> query = _context.Users;
+
+            if (id.HasValue)
+                query = query.Where(x => x.Id != id);
+
+            List<User> users = await query.ToListAsync();
 
             List<UserDTO> dtos = new List<UserDTO>();
             foreach (User user in users)
@@ -45,29 +51,29 @@ namespace CustomForms.Application.Repositories.Implementations
             }
             return dtos;
         }
-        public async Task<ICollection<UserDTO>> GetAll()
-        {
-            List<User> users = await _context.Users.ToListAsync();
+        //public async Task<ICollection<UserDTO>> GetAll()
+        //{
+        //    List<User> users = await _context.Users.ToListAsync();
 
-            List<UserDTO> dtos = new List<UserDTO>();
-            foreach (User user in users)
-            {
-                IList<string> roles = await _userManager.GetRolesAsync(user);
-                UserDTO dto = new UserDTO()
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    Name = $"{user.FirstName} {user.LastName}",
-                    Role = roles.FirstOrDefault(),
-                    LockoutEnabled = user.LockoutEnabled
-                };
-                dtos.Add(dto);
-            }
-            return dtos;
-        }
-        public async Task<UserDTO> GetByEmail(string email)
+        //    List<UserDTO> dtos = new List<UserDTO>();
+        //    foreach (User user in users)
+        //    {
+        //        IList<string> roles = await _userManager.GetRolesAsync(user);
+        //        UserDTO dto = new UserDTO()
+        //        {
+        //            Id = user.Id,
+        //            Email = user.Email,
+        //            Name = $"{user.FirstName} {user.LastName}",
+        //            Role = roles.FirstOrDefault(),
+        //            LockoutEnabled = user.LockoutEnabled
+        //        };
+        //        dtos.Add(dto);
+        //    }
+        //    return dtos;
+        //}
+        public async Task<UserDTO> Get(Expression<Func<User, bool>> predicate)
         {
-            User user = _context.Users.FirstOrDefault(x => x.Email == email);
+            User user = await _context.Users.FirstOrDefaultAsync(predicate);
 
             IList<string> roles = await _userManager.GetRolesAsync(user);
 
@@ -83,42 +89,41 @@ namespace CustomForms.Application.Repositories.Implementations
 
             return dto;
         }
-        public async Task<UserDTO> GetById(Guid userId)
-        {
-            User user = _context.Users.FirstOrDefault(x => x.Id == userId);
+        //public async Task<UserDTO> GetByEmail(string email)
+        //{
+        //    User user = _context.Users.FirstOrDefault(x => x.Email == email);
 
-            IList<string> roles = await _userManager.GetRolesAsync(user);
+        //    IList<string> roles = await _userManager.GetRolesAsync(user);
 
-            UserDTO dto = new UserDTO()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Name = $"{user.FirstName} {user.LastName}",
-                LockoutEnabled = user.LockoutEnabled,
-                Role = roles.FirstOrDefault()
-            };
+        //    UserDTO dto = new UserDTO()
+        //    {
+        //        Id = user.Id,
+        //        Email = user.Email,
+        //        Name = $"{user.FirstName} {user.LastName}",
+        //        LockoutEnabled = user.LockoutEnabled,
+        //        Role = roles.FirstOrDefault(),
+        //        SalesforceAccountId = user.SalesforceAccountId
+        //    };
 
-            return dto;
-        }
-        public async Task<UserDTO> GetByApiToken(string apiToken)
-        {
-            Guid userId = await _context.UserTokens.Where(t => t.Value == apiToken && t.LoginProvider == "API").Select(x => x.UserId).FirstOrDefaultAsync();
+        //    return dto;
+        //}
+        //public async Task<UserDTO> GetById(Guid userId)
+        //{
+        //    User user = _context.Users.FirstOrDefault(x => x.Id == userId);
 
-            User user = _context.Users.FirstOrDefault(x => x.Id == userId);
+        //    IList<string> roles = await _userManager.GetRolesAsync(user);
 
-            IList<string> roles = await _userManager.GetRolesAsync(user);
+        //    UserDTO dto = new UserDTO()
+        //    {
+        //        Id = user.Id,
+        //        Email = user.Email,
+        //        Name = $"{user.FirstName} {user.LastName}",
+        //        LockoutEnabled = user.LockoutEnabled,
+        //        Role = roles.FirstOrDefault()
+        //    };
 
-            UserDTO dto = new UserDTO()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Name = $"{user.FirstName} {user.LastName}",
-                LockoutEnabled = user.LockoutEnabled,
-                Role = roles.FirstOrDefault()
-            };
-
-            return dto;
-        }
+        //    return dto;
+        //}
         public async Task Lock(ICollection<string> listEmail)
         {
             foreach (string email in listEmail)

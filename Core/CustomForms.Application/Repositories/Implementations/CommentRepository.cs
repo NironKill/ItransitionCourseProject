@@ -38,7 +38,7 @@ namespace CustomForms.Application.Repositories.Implementations
             ICollection<CommentDTO> dtos = new List<CommentDTO>();
             foreach (Comment comment in comments)
             {
-                UserDTO user = await _user.GetById(comment.UserId);
+                UserDTO user = await _user.Get(x => x.Id == comment.UserId);
 
                 CommentDTO dto = new CommentDTO()
                 {

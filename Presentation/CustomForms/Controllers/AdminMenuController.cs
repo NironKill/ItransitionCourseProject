@@ -30,7 +30,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO userDTO = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO userDTO = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (userDTO.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -68,7 +68,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO dto = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO dto = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (dto.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -94,7 +94,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO dto = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO dto = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (dto.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -120,7 +120,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO dto = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO dto = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (dto.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -146,7 +146,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO dto = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO dto = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (dto.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -172,7 +172,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO dto = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO dto = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (dto.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -198,7 +198,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO dto = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO dto = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (dto.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 

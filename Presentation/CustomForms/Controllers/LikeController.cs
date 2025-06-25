@@ -32,7 +32,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO user = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO user = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (user.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 
@@ -56,7 +56,7 @@ namespace CustomForms.Controllers
             if (!isInvalid)
                 return RedirectToAction("Login", "Account");
 
-            UserDTO user = await _user.GetByEmail(userIdClaim.Subject.Name);
+            UserDTO user = await _user.Get(x => x.Email == userIdClaim.Subject.Name);
             if (user.LockoutEnabled)
                 return RedirectToAction("Login", "Account");
 

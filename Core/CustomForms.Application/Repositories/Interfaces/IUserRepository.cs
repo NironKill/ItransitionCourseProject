@@ -1,4 +1,6 @@
 ﻿using CustomForms.Application.DTOs;
+using CustomForms.Domain;
+using System.Linq.Expressions;
 
 namespace CustomForms.Application.Repositories.Interfaces
 {
@@ -14,10 +16,7 @@ namespace CustomForms.Application.Repositories.Interfaces
         Task Create(UserCreateDTO dto, CancellationToken cancellationToken);
         Task<bool> UserExistenceCheckByMail(string email);
 
-        Task<ICollection<UserDTO>> GetAll(Guid id);
-        Task<ICollection<UserDTO>> GetAll();
-        Task<UserDTO> GetById(Guid userId);
-        Task<UserDTO> GetByEmail(string email);
-        Task<UserDTO> GetByApiToken(string apiToken);
+        Task<ICollection<UserDTO>> GetAll(Guid? id = null);
+        Task<UserDTO> Get(Expression<Func<User, bool>> predicate);
     }
 }

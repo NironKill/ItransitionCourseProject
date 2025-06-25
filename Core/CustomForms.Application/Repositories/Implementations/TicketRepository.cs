@@ -34,7 +34,7 @@ namespace CustomForms.Application.Repositories.Implementations
         }
         public async Task<ICollection<TicketDTO>> GetAllByUserEmail(string email)
         {
-            UserDTO user = await _user.GetByEmail(email);
+            UserDTO user = await _user.Get(x => x.Email == email);
 
             List<Ticket> tickets = await _context.Tickets.Where(x => x.UserId == user.Id).ToListAsync();
 

@@ -49,7 +49,7 @@ namespace CustomForms.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string userEmail = User.Identity.Name;
-                UserDTO user = await _user.GetByEmail(userEmail);
+                UserDTO user = await _user.Get(x => x.Email == userEmail);
                 userId = user.Id;
                 role = user.Role;
                 formDtos = await _form.GetAllByUserId(userId);
