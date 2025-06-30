@@ -55,8 +55,10 @@ namespace CustomForms.Controllers
             if (string.IsNullOrEmpty(accountId))
                 return BadRequest("Connection to Salesforce was failed. Please try again.");
 
-            user.SalesforceAccountId = accountId;
-            await _user.UpdateAccountId(user);
+            await _user.Update(x => x.Id == user.Id, (entity) => 
+            {
+                entity.SalesforceAccountId = accountId;
+            });
 
             return Ok();
         }

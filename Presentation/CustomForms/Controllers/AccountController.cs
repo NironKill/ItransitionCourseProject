@@ -128,7 +128,11 @@ namespace CustomForms.Controllers
                     FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? string.Empty,
                     LastName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? string.Empty
                 };
-                await _user.UpdateName(userDTO);
+                await _user.Update(x => x.Email == email, (entity) =>
+                {
+                    entity.LastName = userDTO.LastName;
+                    entity.FirstName = userDTO.FirstName;
+                });
 
                 return Content($@"<script>localStorage.setItem('authSuccess', 'true'); window.close();</script>", "text/html");
             }                       

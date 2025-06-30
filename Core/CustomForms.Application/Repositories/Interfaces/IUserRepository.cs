@@ -11,8 +11,7 @@ namespace CustomForms.Application.Repositories.Interfaces
         Task Remove(ICollection<string> emails);
         Task Privilege(ICollection<string> emails);
         Task Deprivilege(ICollection<string> emails);
-        Task UpdateName(UserCreateDTO dto);
-        Task UpdateAccountId(UserDTO dto);
+        Task Update(Expression<Func<User, bool>> predicate, Action<User> update);
         Task Create(UserCreateDTO dto, CancellationToken cancellationToken);
         Task<bool> UserExistenceCheckByMail(string email);
 
